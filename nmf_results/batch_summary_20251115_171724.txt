@@ -1,0 +1,46 @@
+======================================================================
+Batch NMF Processing Summary
+======================================================================
+
+Date: 2025-11-15 17:17:24
+Subset: train
+Tracks processed: 5
+Successful: 5
+Failed: 0
+Components: 30
+Max iterations: 500
+Duration: 197.5s
+
+----------------------------------------------------------------------
+Results:
+----------------------------------------------------------------------
+A Classic Education - NightOwl
+  KL divergence: 1306647.84
+  MAE: 0.274347
+  Relative error: 0.225161
+  Iterations: 230
+
+ANiMAL - Clinic A
+  KL divergence: 2285227.88
+  MAE: 0.308023
+  Relative error: 0.266342
+  Iterations: 170
+
+ANiMAL - Easy Tiger
+  KL divergence: 1596090.97
+  MAE: 0.261424
+  Relative error: 0.286496
+  Iterations: 170
+
+ANiMAL - Rockshow
+  KL divergence: 1601085.35
+  MAE: 0.314554
+  Relative error: 0.316449
+  Iterations: 190
+
+Actions - Devil's Words
+  KL divergence: 2724490.19
+  MAE: 0.432797
+  Relative error: 0.337597
+  Iterations: 180
+
