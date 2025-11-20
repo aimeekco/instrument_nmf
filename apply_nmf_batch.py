@@ -25,7 +25,8 @@ from apply_nmf import (
 
 
 def process_single_track(track, n_components=30, max_iter=500, 
-                         save_visualizations=True, output_dir='nmf_results'):
+                         save_visualizations=True, output_dir='nmf_results',
+                         beta_loss='kullback-leibler'):
     """
     Process a single track with NMF.
     
@@ -35,6 +36,7 @@ def process_single_track(track, n_components=30, max_iter=500,
         max_iter: Maximum iterations for NMF
         save_visualizations: Whether to save plots
         output_dir: Directory to save results
+        beta_loss: Divergence measure ('frobenius', 'kullback-leibler', 'itakura-saito')
     
     Returns:
         dict: Results summary
@@ -63,7 +65,8 @@ def process_single_track(track, n_components=30, max_iter=500,
             init='nndsvda',
             random_state=42,
             verbose=0,  # Silent mode for batch processing
-            tol=1e-4
+            tol=1e-4,
+            beta_loss=beta_loss
         )
         
         # Reconstruct and evaluate
@@ -145,7 +148,7 @@ def process_single_track(track, n_components=30, max_iter=500,
 
 def process_batch(n_tracks=None, start_idx=0, n_components=30, max_iter=500, 
                   save_visualizations=True, output_dir='nmf_results',
-                  subset='train'):
+                  subset='train', beta_loss='kullback-leibler'):
     """
     Process multiple tracks in batch.
     
@@ -157,6 +160,7 @@ def process_batch(n_tracks=None, start_idx=0, n_components=30, max_iter=500,
         save_visualizations: Whether to save plots
         output_dir: Output directory
         subset: 'train' or 'test'
+        beta_loss: Divergence measure ('frobenius', 'kullback-leibler', 'itakura-saito')
     
     Returns:
         list: Results for all tracks
@@ -173,15 +177,24 @@ def process_batch(n_tracks=None, start_idx=0, n_components=30, max_iter=500,
     # Determine tracks to process
     if n_tracks is None:
         end_idx = len(mus)
+        n_tracks_str = "all"
     else:
         end_idx = min(start_idx + n_tracks, len(mus))
+        n_tracks_str = str(n_tracks)
     
     tracks_to_process = list(range(start_idx, end_idx))
     print(f"Processing tracks {start_idx} to {end_idx-1} ({len(tracks_to_process)} tracks)")
     print(f"Components: {n_components}, Max iterations: {max_iter}")
+    print(f"Beta loss: {beta_loss}")
     
-    # Create output directory
-    os.makedirs(output_dir, exist_ok=True)
+    # Create timestamped output directory with parameters
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    beta_short = beta_loss.replace('kullback-leibler', 'kl').replace('itakura-saito', 'is').replace('frobenius', 'fro')
+    batch_dir_name = f"{timestamp}_{subset}_k{n_components}_{beta_short}_tracks{start_idx}-{end_idx-1}"
+    batch_output_dir = os.path.join(output_dir, batch_dir_name)
+    os.makedirs(batch_output_dir, exist_ok=True)
+    
+    print(f"\nOutput directory: {batch_output_dir}")
     
     # Process tracks
     results = []
@@ -196,7 +209,8 @@ def process_batch(n_tracks=None, start_idx=0, n_components=30, max_iter=500,
             n_components=n_components,
             max_iter=max_iter,
             save_visualizations=save_visualizations,
-            output_dir=output_dir
+            output_dir=batch_output_dir,
+            beta_loss=beta_loss
         )
         results.append(result)
     
@@ -242,18 +256,39 @@ def process_batch(n_tracks=None, start_idx=0, n_components=30, max_iter=500,
         for r in failed:
             print(f"  ❌ {r['track_name']}: {r['error']}")
     
+    # Save configuration and summary in the batch directory
+    config_path = os.path.join(batch_output_dir, "batch_config.txt")
+    with open(config_path, 'w') as f:
+        f.write("=" * 70 + "\n")
+        f.write("Batch Configuration\n")
+        f.write("=" * 70 + "\n\n")
+        f.write(f"Timestamp: {timestamp}\n")
+        f.write(f"Date: {start_time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write(f"Subset: {subset}\n")
+        f.write(f"Start index: {start_idx}\n")
+        f.write(f"End index: {end_idx - 1}\n")
+        f.write(f"Number of tracks: {len(tracks_to_process)}\n")
+        f.write(f"Components (K): {n_components}\n")
+        f.write(f"Max iterations: {max_iter}\n")
+        f.write(f"Beta loss: {beta_loss}\n")
+        f.write(f"Visualizations: {save_visualizations}\n")
+        f.write(f"Output directory: {batch_output_dir}\n")
+    
+    print(f"\nConfiguration saved to: {config_path}")
+    
     # Save summary
-    summary_path = os.path.join(output_dir, f"batch_summary_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt")
+    summary_path = os.path.join(batch_output_dir, "batch_summary.txt")
     with open(summary_path, 'w') as f:
         f.write("=" * 70 + "\n")
         f.write("Batch NMF Processing Summary\n")
         f.write("=" * 70 + "\n\n")
-        f.write(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write(f"Date: {end_time.strftime('%Y-%m-%d %H:%M:%S')}\n")
         f.write(f"Subset: {subset}\n")
         f.write(f"Tracks processed: {len(results)}\n")
         f.write(f"Successful: {len(successful)}\n")
         f.write(f"Failed: {len(failed)}\n")
         f.write(f"Components: {n_components}\n")
+        f.write(f"Beta loss: {beta_loss}\n")
         f.write(f"Max iterations: {max_iter}\n")
         f.write(f"Duration: {duration:.1f}s\n\n")
         
@@ -269,7 +304,7 @@ def process_batch(n_tracks=None, start_idx=0, n_components=30, max_iter=500,
                 f.write(f"  Iterations: {r['n_iter']}\n\n")
     
     print(f"\nSummary saved to: {summary_path}")
-    print(f"All results saved to: {output_dir}/")
+    print(f"All results saved to: {batch_output_dir}/")
     
     return results
 
@@ -320,6 +355,13 @@ if __name__ == "__main__":
         choices=['train', 'test'],
         help='Dataset subset (default: train)'
     )
+    parser.add_argument(
+        '--beta-loss',
+        type=str,
+        default='kullback-leibler',
+        choices=['frobenius', 'kullback-leibler', 'itakura-saito'],
+        help='Beta divergence to use (default: kullback-leibler). Use itakura-saito for perceptual distance.'
+    )
     
     args = parser.parse_args()
     
@@ -331,5 +373,6 @@ if __name__ == "__main__":
         max_iter=args.max_iter,
         save_visualizations=not args.no_viz,
         output_dir=args.output_dir,
-        subset=args.subset
+        subset=args.subset,
+        beta_loss=args.beta_loss
     )

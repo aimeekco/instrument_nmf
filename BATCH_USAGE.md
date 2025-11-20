@@ -25,6 +25,11 @@ python3 apply_nmf_batch.py
 python3 apply_nmf_batch.py --subset test --n-tracks 5
 ```
 
+### Using different loss function
+```bash
+python3 apply_nmf_batch.py --n-tracks 5 --beta-loss itakura-saito
+```
+
 ## All Options
 
 ```bash
@@ -38,12 +43,21 @@ Options:
   --no-viz             Skip saving visualizations (faster)
   --output-dir DIR     Output directory (default: nmf_results)
   --subset SUBSET      Dataset subset: train or test (default: train)
+  --beta-loss STR      Beta divergence to use: Frobenius, Kullback-Lieber, Itakura-Saito (default: Kullback-Lieber)
 ```
 
 ## Output
 
-For each track, the script saves:
-- `nmf_kl_*.pkl` - NMF matrices (W, H) and metadata
-- `components_*.png` - Visualization of basis and activation matrices
-- `spectrograms_*.png` - Original vs reconstructed spectrograms
-- `batch_summary_*.txt` - Overall statistics and quality metrics
+Each batch run creates a timestamped directory with all parameters:
+
+```
+nmf_results/
+└── 20251120_143022_train_k30_kl_tracks0-4/
+    ├── batch_config.txt              # Run parameters
+    ├── batch_summary.txt             # Results summary
+    ├── nmf_kl_*.pkl                  # NMF matrices (W, H) and metadata
+    ├── components_*.png              # Basis and activation visualizations
+    └── spectrograms_*.png            # Original vs reconstructed spectrograms
+```
+
+**Directory name format:** `{timestamp}_{subset}_k{components}_{divergence}_tracks{start}-{end}`

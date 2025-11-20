@@ -20,9 +20,9 @@ from datetime import datetime
 
 
 def apply_nmf_kl(V, n_components, max_iter=500, init='random', 
-                 random_state=42, verbose=0, tol=1e-4):
+                 random_state=42, verbose=0, tol=1e-4, beta_loss='kullback-leibler'):
     """
-    Apply NMF with KL divergence on spectrogram matrix V.
+    Apply NMF with specified divergence on spectrogram matrix V.
     
     Args:
         V: Non-negative magnitude spectrogram [n_frequencies, n_time_frames]
@@ -32,27 +32,40 @@ def apply_nmf_kl(V, n_components, max_iter=500, init='random',
         random_state: Random seed for reproducibility
         verbose: Verbosity level (0=silent, 1=progress, 2=detailed)
         tol: Tolerance for stopping criterion
+        beta_loss: Divergence measure ('frobenius', 'kullback-leibler', 'itakura-saito', or numeric)
     
     Returns:
         W: Basis matrix [n_frequencies, n_components]
         H: Activation matrix [n_components, n_time_frames]
         model: Fitted NMF model object
-        reconstruction_error: Final reconstruction error (KL divergence)
+        reconstruction_error: Final reconstruction error
     """
-    print(f"\nApplying NMF with KL divergence...")
+    print(f"\nApplying NMF with {beta_loss} divergence...")
     print(f"  Input shape: {V.shape}")
     print(f"  Components: {n_components}")
     print(f"  Max iterations: {max_iter}")
     print(f"  Initialization: {init}")
     
-    # Create NMF model with KL divergence (beta_loss='kullback-leibler')
+    # Add small epsilon to avoid zeros for Itakura-Saito and beta_loss <= 0
+    # This prevents numerical instabilities and division by zero
+    epsilon = 1e-10
+    V_safe = V + epsilon
+    
+    # Check for zero values
+    n_zeros = (V == 0).sum()
+    if n_zeros > 0 and beta_loss in ['itakura-saito', 0]:
+        print(f"  Warning: Input contains {n_zeros} zeros. Adding epsilon={epsilon} for numerical stability.")
+    
+    print(f"  Min value (after epsilon): {V_safe.min():.2e}")
+    
+    # Create NMF model with specified divergence
     model = NMF(
         n_components=n_components,
         init=init,
         random_state=random_state,
         max_iter=max_iter,
-        beta_loss='kullback-leibler',  # KL divergence
-        solver='mu',  # Multiplicative update solver (required for KL)
+        beta_loss=beta_loss,
+        solver='mu',  # Multiplicative update solver (required for beta_loss != 'frobenius')
         verbose=verbose,
         tol=tol,
         alpha_W=0.0,  # No regularization on W (can be adjusted)
@@ -65,7 +78,7 @@ def apply_nmf_kl(V, n_components, max_iter=500, init='random',
     # For V ≈ W @ H, we need:
     #   W: [n_frequencies, n_components]
     #   H: [n_components, n_time_frames]
-    W = model.fit_transform(V)  # This gives us W: [n_frequencies, n_components]
+    W = model.fit_transform(V_safe)  # This gives us W: [n_frequencies, n_components]
     H = model.components_  # This gives us H: [n_components, n_time_frames]
     
     # Calculate reconstruction error
