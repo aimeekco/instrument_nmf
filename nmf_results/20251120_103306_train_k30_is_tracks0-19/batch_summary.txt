@@ -1,0 +1,137 @@
+======================================================================
+Batch NMF Processing Summary
+======================================================================
+
+Date: 2025-11-20 12:54:28
+Subset: train
+Tracks processed: 20
+Successful: 20
+Failed: 0
+Components: 30
+Beta loss: itakura-saito
+Max iterations: 500
+Duration: 8481.3s
+
+----------------------------------------------------------------------
+Results:
+----------------------------------------------------------------------
+A Classic Education - NightOwl
+  KL divergence: 2517173.52
+  MAE: 0.432325
+  Relative error: 0.552669
+  Iterations: 290
+
+ANiMAL - Clinic A
+  KL divergence: 3846725.52
+  MAE: 0.432536
+  Relative error: 0.653366
+  Iterations: 370
+
+ANiMAL - Easy Tiger
+  KL divergence: 3728839.63
+  MAE: 0.425691
+  Relative error: 2.247921
+  Iterations: 390
+
+ANiMAL - Rockshow
+  KL divergence: 2421677.39
+  MAE: 0.409288
+  Relative error: 0.547649
+  Iterations: 380
+
+Actions - Devil's Words
+  KL divergence: 4769930.56
+  MAE: 0.615693
+  Relative error: 0.712121
+  Iterations: 410
+
+Actions - One Minute Smile
+  KL divergence: 3365181.03
+  MAE: 0.571375
+  Relative error: 0.586088
+  Iterations: 360
+
+Actions - South Of The Water
+  KL divergence: 2948733.89
+  MAE: 0.464152
+  Relative error: 0.544934
+  Iterations: 360
+
+Aimee Norwich - Child
+  KL divergence: 1788595.08
+  MAE: 0.307462
+  Relative error: 0.470687
+  Iterations: 320
+
+Alexander Ross - Goodbye Bolero
+  KL divergence: 5331030.28
+  MAE: 0.321651
+  Relative error: 0.611378
+  Iterations: 430
+
+Alexander Ross - Velvet Curtain
+  KL divergence: 4754304.96
+  MAE: 0.217593
+  Relative error: 0.758187
+  Iterations: 370
+
+Angela Thomas Wade - Milk Cow Blues
+  KL divergence: 3160263.69
+  MAE: 0.346082
+  Relative error: 0.723454
+  Iterations: 370
+
+Atlantis Bound - It Was My Fault For Waiting
+  KL divergence: 3824201.49
+  MAE: 0.342337
+  Relative error: 0.765160
+  Iterations: 500
+
+Auctioneer - Our Future Faces
+  KL divergence: 3278403.50
+  MAE: 0.434844
+  Relative error: 0.544776
+  Iterations: 370
+
+AvaLuna - Waterduct
+  KL divergence: 2369165.04
+  MAE: 0.234920
+  Relative error: 0.635507
+  Iterations: 330
+
+BigTroubles - Phantom
+  KL divergence: 2519375.83
+  MAE: 0.533049
+  Relative error: 0.463705
+  Iterations: 300
+
+Bill Chudziak - Children Of No-one
+  KL divergence: 3005225.19
+  MAE: 0.355039
+  Relative error: 0.554809
+  Iterations: 330
+
+Black Bloc - If You Want Success
+  KL divergence: 5042635.23
+  MAE: 0.386026
+  Relative error: 0.512207
+  Iterations: 340
+
+Celestial Shore - Die For Us
+  KL divergence: 4791893.36
+  MAE: 0.425133
+  Relative error: 0.618410
+  Iterations: 350
+
+Chris Durban - Celebrate
+  KL divergence: 3671065.94
+  MAE: 0.352998
+  Relative error: 0.565573
+  Iterations: 400
+
+Clara Berry And Wooldog - Air Traffic
+  KL divergence: 1391677.65
+  MAE: 0.205573
+  Relative error: 0.884704
+  Iterations: 330
+
