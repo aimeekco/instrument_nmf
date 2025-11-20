@@ -1,0 +1,12 @@
+======================================================================
+Batch Configuration (Reconstructed)
+======================================================================
+
+Original timestamp: 20251115_173733
+Date: 2025-11-15 17:37:33
+Subset: train
+Number of tracks: 20
+Components (K): 30
+Max iterations: 500
+Beta loss: kullback-leibler
+Reorganized by: reorganize_results.py
