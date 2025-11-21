@@ -1,0 +1,47 @@
+======================================================================
+Batch NMF Processing Summary
+======================================================================
+
+Date: 2025-11-21 11:18:34
+Subset: test
+Tracks processed: 5
+Successful: 5
+Failed: 0
+Components: 30
+Beta loss: itakura-saito
+Max iterations: 500
+Duration: 1021.9s
+
+----------------------------------------------------------------------
+Results:
+----------------------------------------------------------------------
+AM Contra - Heart Peripheral
+  KL divergence: 2964130.03
+  MAE: 0.391184
+  Relative error: 0.608606
+  Iterations: 390
+
+Al James - Schoolboy Facination
+  KL divergence: 3208429.19
+  MAE: 0.443610
+  Relative error: 0.591425
+  Iterations: 410
+
+Angels In Amplifiers - I'm Alright
+  KL divergence: 2930271.23
+  MAE: 0.436683
+  Relative error: 0.595788
+  Iterations: 380
+
+Arise - Run Run Run
+  KL divergence: 2724621.91
+  MAE: 0.330324
+  Relative error: 0.606843
+  Iterations: 340
+
+BKS - Bulldozer
+  KL divergence: 329636819.33
+  MAE: 11.266638
+  Relative error: 1164.164650
+  Iterations: 360
+
