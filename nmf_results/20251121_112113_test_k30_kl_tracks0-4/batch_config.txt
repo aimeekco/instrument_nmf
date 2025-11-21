@@ -1,0 +1,15 @@
+======================================================================
+Batch Configuration
+======================================================================
+
+Timestamp: 20251121_112113
+Date: 2025-11-21 11:21:13
+Subset: test
+Start index: 0
+End index: 4
+Number of tracks: 5
+Components (K): 30
+Max iterations: 500
+Beta loss: kullback-leibler
+Visualizations: True
+Output directory: nmf_results/20251121_112113_test_k30_kl_tracks0-4
