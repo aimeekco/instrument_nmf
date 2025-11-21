@@ -43,7 +43,7 @@ Options:
   --no-viz             Skip saving visualizations (faster)
   --output-dir DIR     Output directory (default: nmf_results)
   --subset SUBSET      Dataset subset: train or test (default: train)
-  --beta-loss STR      Beta divergence to use: Frobenius, Kullback-Lieber, Itakura-Saito (default: Kullback-Leibler)
+  --beta-loss STR      Beta divergence to use: Frobenius, Kullback-Leibler, Itakura-Saito (default: Kullback-Leibler)
 ```
 
 ## Output
