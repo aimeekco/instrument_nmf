@@ -110,35 +110,23 @@ def reconstruct_component_audio(track_name, pkl_path, component_indices, output_
         print(f"    Saved to: {path}")
     print("-" * 50)
 
+import argparse
+
 if __name__ == "__main__":
-    
-    # KL-NMF
-    print("--- Running KL-NMF Component Reconstruction ---")
-    kl_result_file = "nmf_results/20251115_173733_train_k30_kl_20tracks/nmf_kl_Actions - One Minute Smile_20251115_172412.pkl"
-    kl_track_name = "Actions - One Minute Smile"
-    
-    if os.path.exists(kl_result_file):
+    parser = argparse.ArgumentParser(description='Reconstruct audio from NMF components.')
+    parser.add_argument('--track', type=str, required=True, help='Name of the track (e.g., "Artist - Title")')
+    parser.add_argument('--file', type=str, required=True, help='Path to the .pkl result file')
+    parser.add_argument('--components', type=int, nargs='+', default=[0, 1, 2, 3, 4], help='List of component indices to reconstruct')
+    parser.add_argument('--output-dir', type=str, default='reconstructed_audio', help='Base directory for output')
+
+    args = parser.parse_args()
+
+    if os.path.exists(args.file):
         reconstruct_component_audio(
-            track_name=kl_track_name, 
-            pkl_path=kl_result_file, 
-            component_indices=[0, 1, 2] 
+            track_name=args.track,
+            pkl_path=args.file,
+            component_indices=args.components,
+            output_base_dir=args.output_dir
         )
     else:
-        print(f"KL-NMF result file not found: {kl_result_file}. Skipping KL reconstruction.")
-
-    # IS-NMF
-    print("\n--- Running IS-NMF Component Reconstruction ---")
-
-    is_result_file = "nmf_results/20251120_103306_train_k30_is_tracks0-19/nmf_kl_ANiMAL - Clinic A_20251120_103820.pkl"
-    is_track_name = "ANiMAL - Clinic A"
-
-    if os.path.exists(is_result_file):
-        reconstruct_component_audio(
-            track_name=is_track_name, 
-            pkl_path=is_result_file, 
-            component_indices=[0, 1, 2]
-        )
-    else:
-        print(f"IS-NMF result file not found: {is_result_file}. Skipping IS reconstruction.")
-
-    print("\nReconstruction process complete. Check the 'reconstructed_audio' directory.")
+        print(f"Error: File not found: {args.file}")
