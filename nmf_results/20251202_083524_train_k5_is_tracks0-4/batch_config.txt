@@ -1,0 +1,15 @@
+======================================================================
+Batch Configuration
+======================================================================
+
+Timestamp: 20251202_083524
+Date: 2025-12-02 08:35:24
+Subset: train
+Start index: 0
+End index: 4
+Number of tracks: 5
+Components (K): 5
+Max iterations: 500
+Beta loss: itakura-saito
+Visualizations: True
+Output directory: nmf_results/20251202_083524_train_k5_is_tracks0-4

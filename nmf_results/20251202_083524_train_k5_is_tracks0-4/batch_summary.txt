@@ -1,0 +1,47 @@
+======================================================================
+Batch NMF Processing Summary
+======================================================================
+
+Date: 2025-12-02 08:39:29
+Subset: train
+Tracks processed: 5
+Successful: 5
+Failed: 0
+Components: 5
+Beta loss: itakura-saito
+Max iterations: 500
+Duration: 245.2s
+
+----------------------------------------------------------------------
+Results:
+----------------------------------------------------------------------
+A Classic Education - NightOwl
+  KL divergence: 3306988.51
+  MAE: 0.494550
+  Relative error: 0.571390
+  Iterations: 150
+
+ANiMAL - Clinic A
+  KL divergence: 5246618.35
+  MAE: 0.507558
+  Relative error: 0.669690
+  Iterations: 170
+
+ANiMAL - Easy Tiger
+  KL divergence: 4646649.14
+  MAE: 0.484540
+  Relative error: 0.827367
+  Iterations: 190
+
+ANiMAL - Rockshow
+  KL divergence: 3638909.64
+  MAE: 0.509821
+  Relative error: 0.737708
+  Iterations: 280
+
+Actions - Devil's Words
+  KL divergence: 6787833.42
+  MAE: 0.728351
+  Relative error: 0.719020
+  Iterations: 260
+

@@ -1,0 +1,15 @@
+======================================================================
+Batch Configuration
+======================================================================
+
+Timestamp: 20251201_201701
+Date: 2025-12-01 20:17:01
+Subset: train
+Start index: 0
+End index: 4
+Number of tracks: 5
+Components (K): 10
+Max iterations: 500
+Beta loss: kullback-leibler
+Visualizations: True
+Output directory: nmf_results/20251201_201701_train_k10_kl_tracks0-4

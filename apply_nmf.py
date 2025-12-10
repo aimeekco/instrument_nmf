@@ -278,8 +278,12 @@ def save_nmf_results(W, H, model, metadata, save_dir='nmf_results'):
     """
     os.makedirs(save_dir, exist_ok=True)
     
+    beta_loss = model.get_params().get('beta_loss', 'custom')
+    if isinstance(beta_loss, float):
+        beta_loss = f"beta{beta_loss}"
+    
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"nmf_kl_{metadata.get('track_name', 'unknown')}_{timestamp}.pkl"
+    filename = f"nmf_{beta_loss}_{metadata.get('track_name', 'unknown')}_{timestamp}.pkl"
     save_path = os.path.join(save_dir, filename)
     
     results = {
